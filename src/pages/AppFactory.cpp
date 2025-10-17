@@ -24,7 +24,7 @@
 #include "StartUp/StartUp.h"
 #include "HomeMenu/HomeMenu.h"
 #include "AppWiFi/AppWiFi.h"
-#include "AppCamera/AppCamera.h"
+#include "AppFan/AppFan.h"
 #include "AppMic/AppMic.h"
 #include "AppPower/AppPower.h"
 #include "AppIMU/AppIMU.h"
@@ -44,7 +44,7 @@ PageBase* AppFactory::CreatePage(const char* name) {
     APP_CLASS_MATCH(StartUp);
     APP_CLASS_MATCH(HomeMenu);
     APP_CLASS_MATCH(AppWiFi);
-    APP_CLASS_MATCH(AppCamera);
+    APP_CLASS_MATCH(AppFan);
     APP_CLASS_MATCH(AppMic);
     APP_CLASS_MATCH(AppPower);
     APP_CLASS_MATCH(AppIMU);

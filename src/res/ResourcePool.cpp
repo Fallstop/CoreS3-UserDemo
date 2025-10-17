@@ -53,6 +53,7 @@ static void Resource_Init() {
     IMPORT_IMG(app_wifi);
     IMPORT_IMG(background);
     IMPORT_IMG(ball);
+    IMPORT_IMG(app_fan);
     IMPORT_IMG(compass_face);
     IMPORT_IMG(cross);
     IMPORT_IMG(failed);
@@ -62,13 +63,11 @@ static void Resource_Init() {
     IMPORT_IMG(next_p);
     IMPORT_IMG(next_r);
     IMPORT_IMG(pass);
+    IMPORT_IMG(app_fan);
    
 #if defined(M5CORES3)
     IMPORT_IMG(s3_text);
-    IMPORT_IMG(app_camera);
-    IMPORT_IMG(app_camera_als);
-    IMPORT_IMG(app_camera_als_ps);
-    IMPORT_IMG(app_camera_ps);
+    IMPORT_IMG(app_fan);
     IMPORT_IMG(app_imu_graphic);
     IMPORT_IMG(app_imu_raw);
     IMPORT_IMG(core_text);

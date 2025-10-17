@@ -88,17 +88,17 @@ void HomeMenu::onEvent(lv_event_t* event) {
         if (obj == instance->View.ui.imgbtn_list[0]) {
             USBSerial.println("AppWiFi");
             instance->_Manager->Replace("Pages/AppWiFi");
-        } 
-    #if defined(M5CORES3)
-        else if (obj == instance->View.ui.imgbtn_list[1]) {
-            USBSerial.println("AppCamera");
-            instance->_Manager->Replace("Pages/AppCamera");
-        }else if (obj == instance->View.ui.imgbtn_list[4]) {
+        } else if (obj == instance->View.ui.imgbtn_list[1]) {
+            USBSerial.println("AppFan");
+            instance->_Manager->Replace("Pages/AppFan");
+        }
+            #if defined(M5CORES3)
+        else if (obj == instance->View.ui.imgbtn_list[4]) {
             USBSerial.println("AppIMU");
             instance->_Manager->Replace("Pages/AppIMU");
         }  
-    #elif defined(M5CORES3SE)
-
+        #elif defined(M5CORES3SE)
+        
     #endif
         
         else if (obj == instance->View.ui.imgbtn_list[3]) {

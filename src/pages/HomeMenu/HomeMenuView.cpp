@@ -13,13 +13,7 @@ using namespace Page;
 
 
 LV_IMG_DECLARE(menu_wifi);
-
-#if defined(M5CORES3)
-    LV_IMG_DECLARE(menu_cam);
-#elif defined(M5CORES3SE)
-    LV_IMG_DECLARE(menu_cam_se);
-#endif
-
+LV_IMG_DECLARE(app_fan);
 LV_IMG_DECLARE(menu_mic);
 LV_IMG_DECLARE(menu_power);
 
@@ -35,11 +29,7 @@ LV_IMG_DECLARE(menu_sys);
 
 static const lv_img_dsc_t* menu_img_pressed_list[] = {
     &menu_wifi,
-#if defined(M5CORES3)
-    &menu_cam,
-#elif defined(M5CORES3SE)
-    &menu_cam_se,
-#endif
+    &app_fan,
     &menu_mic,
     &menu_power,
 #if defined(M5CORES3)

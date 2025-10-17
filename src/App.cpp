@@ -55,7 +55,7 @@ void App_Init() {
     manager.Install("StartUp", "Pages/StartUp");
     manager.Install("HomeMenu", "Pages/HomeMenu");
     manager.Install("AppWiFi", "Pages/AppWiFi");
-    manager.Install("AppCamera", "Pages/AppCamera");
+    manager.Install("AppFan", "Pages/AppFan");
     manager.Install("AppMic", "Pages/AppMic");
     manager.Install("AppPower", "Pages/AppPower");
     manager.Install("AppIMU", "Pages/AppIMU");
