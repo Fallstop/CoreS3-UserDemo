@@ -64,6 +64,7 @@ static void Resource_Init() {
     IMPORT_IMG(next_r);
     IMPORT_IMG(pass);
     IMPORT_IMG(app_fan);
+    IMPORT_IMG(menu_fan);
    
 #if defined(M5CORES3)
     IMPORT_IMG(s3_text);

@@ -49,7 +49,7 @@ void AppFanView::Create(lv_obj_t* root) {
 
     label = lv_label_create(root);
     lv_label_set_text(label, "0");
-    lv_obj_align_to(label, ui.labelTitle, LV_ALIGN_OUT_RIGHT_MID, 10, 0);
+    lv_obj_align_to(label, ui.labelTitle, LV_ALIGN_BOTTOM_LEFT, 10, -20);
     ui.label_rpm_value = label;
 }
 

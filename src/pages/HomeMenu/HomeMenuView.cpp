@@ -13,7 +13,7 @@ using namespace Page;
 
 
 LV_IMG_DECLARE(menu_wifi);
-LV_IMG_DECLARE(app_fan);
+LV_IMG_DECLARE(menu_fan);
 LV_IMG_DECLARE(menu_mic);
 LV_IMG_DECLARE(menu_power);
 
@@ -29,7 +29,7 @@ LV_IMG_DECLARE(menu_sys);
 
 static const lv_img_dsc_t* menu_img_pressed_list[] = {
     &menu_wifi,
-    &app_fan,
+    &menu_fan,
     &menu_mic,
     &menu_power,
 #if defined(M5CORES3)
@@ -56,7 +56,7 @@ void HomeMenuView::Create(lv_obj_t* root) {
     for (size_t i = 0; i < 8; i++)
     {
         ui.imgbtn_list[i] = lv_imgbtn_create(root);
-        // lv_obj_remove_style_all(ui.imgbtn_list[i]);
+        lv_obj_remove_style_all(ui.imgbtn_list[i]);
         lv_obj_set_size(ui.imgbtn_list[i], 60, 73);
         lv_obj_set_pos(ui.imgbtn_list[i], 10 + 80 * (i % 4), 75 + 80 * (i / 4));
 
