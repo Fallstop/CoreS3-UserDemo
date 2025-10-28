@@ -5,6 +5,8 @@
  */
 
 #include "m5_module_fan.hpp"
+#include "freertos/FreeRTOS.h"
+#include "freertos/semphr.h"
 
 void M5ModuleFan::writeBytes(uint8_t addr, uint8_t reg, uint8_t *buffer, uint8_t length)
 {
@@ -60,15 +62,14 @@ void M5ModuleFan::readBytes(uint8_t addr, uint8_t reg, uint8_t *buffer, uint8_t 
 
 void M5ModuleFan::acquireMutex()
 {
-    while (mutexLocked) {
-        delay(1);
-    }
-    mutexLocked = true;
+    if (i2c_mutex != NULL)
+        xSemaphoreTake(i2c_mutex, portMAX_DELAY);
 }
 
 void M5ModuleFan::releaseMutex()
 {
-    mutexLocked = false;
+    if (i2c_mutex != NULL)
+        xSemaphoreGive(i2c_mutex);
 }
 
 bool M5ModuleFan::begin(TwoWire *wire, uint8_t addr, uint8_t sda, uint8_t scl, uint32_t speed)
@@ -88,6 +89,9 @@ bool M5ModuleFan::begin(TwoWire *wire, uint8_t addr, uint8_t sda, uint8_t scl, u
     _wire->beginTransmission(_addr);
     uint8_t error = _wire->endTransmission();
     if (error == 0) {
+        if (i2c_mutex == NULL) {
+            i2c_mutex = xSemaphoreCreateMutex();
+        }
         return true;
     } else {
         return false;

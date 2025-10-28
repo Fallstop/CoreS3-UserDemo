@@ -43,13 +43,13 @@ void AppFanView::Create(lv_obj_t* root) {
     ui.label_speed_value = label;
 
     // Create a label to show the fan RPM
-    label = lv_label_create(root);
-    lv_label_set_text(label, "RPM: ");
-    lv_obj_align(label, LV_ALIGN_BOTTOM_LEFT, 20, -20);
+    lv_obj_t* rpm_label = lv_label_create(root);
+    lv_label_set_text(rpm_label, "RPM: ");
+    lv_obj_align(rpm_label, LV_ALIGN_BOTTOM_LEFT, 20, -20);
 
     label = lv_label_create(root);
     lv_label_set_text(label, "0");
-    lv_obj_align_to(label, ui.labelTitle, LV_ALIGN_BOTTOM_LEFT, 10, -20);
+    lv_obj_align_to(label, rpm_label, LV_ALIGN_OUT_RIGHT_MID, 10, 0);
     ui.label_rpm_value = label;
 }
 

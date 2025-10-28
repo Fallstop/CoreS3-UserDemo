@@ -9,6 +9,9 @@
 
 #include "Arduino.h"
 #include "Wire.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/semphr.h"
+#include "M5Unified.h"
 
 // #define MODULE_FAN_DEBUG Serial // The corresponding serial port must be initialized before use
 // This macro definition can be annotated without sending and receiving data prints
@@ -105,6 +108,58 @@ typedef enum {
 } module_fan_pwm_freq_t;  // PWM waveform frequency types
 
 class M5ModuleFan {
+private:
+    TwoWire *_wire;
+    uint8_t _addr;
+    uint8_t _sda;
+    uint8_t _scl;
+    uint32_t _speed;
+    SemaphoreHandle_t i2c_mutex;
+
+    /**
+     * @brief Writes multiple bytes to a specified register.
+     *
+     * This function writes a sequence of bytes from the provided buffer
+     * to the device located at the specified I2C address and register.
+     *
+     * @param addr   The I2C address of the device.
+     * @param reg    The register address where the data will be written.
+     * @param buffer A pointer to the data buffer that contains the bytes to be written.
+     * @param length The number of bytes to write from the buffer.
+     */
+    void writeBytes(uint8_t addr, uint8_t reg, uint8_t *buffer, uint8_t length);
+
+    /**
+     * @brief Reads multiple bytes from a specified register.
+     *
+     * This function reads a sequence of bytes from the device located at
+     * the specified I2C address and register into the provided buffer.
+     *
+     * @param addr   The I2C address of the device.
+     * @param reg    The register address from which the data will be read.
+     * @param buffer A pointer to the data buffer where the read bytes will be stored.
+     * @param length The number of bytes to read into the buffer.
+     */
+    void readBytes(uint8_t addr, uint8_t reg, uint8_t *buffer, uint8_t length);
+
+    /**
+     * @brief Acquires a mutex lock.
+     *
+     * This function attempts to acquire a mutex lock to ensure thread-safe access
+     * to shared resources. It should be paired with a corresponding call to
+     * releaseMutex() to prevent deadlocks.
+     */
+    void acquireMutex();
+
+    /**
+     * @brief Releases a mutex lock.
+     *
+     * This function releases a previously acquired mutex lock, allowing other
+     * threads to access shared resources. It should only be called after
+     * successfully acquiring the mutex with acquireMutex().
+     */
+    void releaseMutex();
+
 public:
     /**
      * @brief Initializes the device with optional I2C settings.
@@ -121,7 +176,7 @@ public:
      *
      * @return True if initialization was successful, false otherwise.
      */
-    bool begin(TwoWire* wire = &Wire, uint8_t addr = MODULE_FAN_BASE_ADDR, uint8_t sda = 12, uint8_t scl = 11, uint32_t speed = 400000L);
+    bool begin(TwoWire* wire, uint8_t addr = MODULE_FAN_BASE_ADDR, uint8_t sda = 12, uint8_t scl = 11, uint32_t speed = 400000L);
 
     /**
      * @brief Sets the working status of the fan.
@@ -257,60 +312,6 @@ public:
      * @return The current I2C address of the device.
      */
     uint8_t getI2CAddress(void);
-
-private:
-    TwoWire* _wire;
-    uint8_t _addr;
-    uint8_t _scl;
-    uint8_t _sda;
-    uint32_t _speed;
-
-    // Mutex flag for indicating whether the mutex is locked.
-    bool mutexLocked = false;  // Mutex semaphore.
-
-    /**
-     * @brief Writes multiple bytes to a specified register.
-     *
-     * This function writes a sequence of bytes from the provided buffer
-     * to the device located at the specified I2C address and register.
-     *
-     * @param addr   The I2C address of the device.
-     * @param reg    The register address where the data will be written.
-     * @param buffer A pointer to the data buffer that contains the bytes to be written.
-     * @param length The number of bytes to write from the buffer.
-     */
-    void writeBytes(uint8_t addr, uint8_t reg, uint8_t* buffer, uint8_t length);
-
-    /**
-     * @brief Reads multiple bytes from a specified register.
-     *
-     * This function reads a sequence of bytes from the device located at
-     * the specified I2C address and register into the provided buffer.
-     *
-     * @param addr   The I2C address of the device.
-     * @param reg    The register address from which the data will be read.
-     * @param buffer A pointer to the data buffer where the read bytes will be stored.
-     * @param length The number of bytes to read into the buffer.
-     */
-    void readBytes(uint8_t addr, uint8_t reg, uint8_t* buffer, uint8_t length);
-
-    /**
-     * @brief Acquires a mutex lock.
-     *
-     * This function attempts to acquire a mutex lock to ensure thread-safe access
-     * to shared resources. It should be paired with a corresponding call to
-     * releaseMutex() to prevent deadlocks.
-     */
-    void acquireMutex();
-
-    /**
-     * @brief Releases a mutex lock.
-     *
-     * This function releases a previously acquired mutex lock, allowing other
-     * threads to access shared resources. It should only be called after
-     * successfully acquiring the mutex with acquireMutex().
-     */
-    void releaseMutex();
 };
 
 #endif
